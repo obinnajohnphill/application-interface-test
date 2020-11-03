@@ -3,8 +3,6 @@
 // Include router class
 include('../routes/Route.php');
 
-
-
 ##.......WEB Routes.........
 Route::add('/',function(){
     require '../views/edit.html';
@@ -27,10 +25,12 @@ Route::add('/customer/address/create',function(){
 });
 
 Route::add('/customer/address/edit',function(){
-    require '../views/edit-address.html';
+    echo "hello";
+    //require '../views/edit-address.html';
 });
 
 
+/*
 
 ##.......API Routes.........
 Route::add('/customer/address/edit',function(){
@@ -40,6 +40,7 @@ Route::add('/customer/address/edit',function(){
 Route::add('/customer/address/edit',function(){
 
 },'post');
-
+*/
 
 Route::run('/');
+
