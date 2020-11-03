@@ -1,0 +1,21 @@
+{
+  "authors": [
+    {
+      "name": "Obinna Johnphill",
+      "email": "obinna.johnphill@googlemail.com",
+      "role": "Developer"
+    }
+  ],
+  "autoload": {
+    "classmap": [
+      "php/",
+      "api/"
+    ]
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9"
+  },
+  "require": {
+    "ext-ftp": "*"
+  }
+}
