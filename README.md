@@ -1,4 +1,4 @@
-oop-challenge
+Application Interface Test
 
 - Installation: composer install
 
