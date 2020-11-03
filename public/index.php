@@ -6,6 +6,14 @@ include('../routes/Route.php');
 
 
 ##.......WEB Routes.........
+Route::add('/',function(){
+    require '../views/edit.html';
+});
+
+Route::add('/customer/login',function(){
+    require '../views/login.html';
+});
+
 Route::add('/customer/registration',function(){
     require '../views/registration.html';
 });

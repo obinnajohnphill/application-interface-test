@@ -5,28 +5,129 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <script src=/js/jquery.min.js""></script>
-    <script src="/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/css/intlTelInput.css">
+    <script src="/js/intlTelInput.js"></script>
 </head>
 <body>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <a href="#" class="navbar-brand">Web Application</a>
+    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+        <div class="navbar-nav">
+            <a href="/customer/edit" class="nav-item nav-link active">Home</a>
+            <a href="/customer/address/create" class="nav-item nav-link">Create Address</a>
+            <a href="/customer/address/edit" class="nav-item nav-link">Edit Address</a>
+        </div>
+        <div class="navbar-nav ml-auto">
+            <a href="#" class="nav-item nav-link">Logout</a>
+        </div>
+    </div>
+</nav>
+
 
 <div class="container">
-    <h2>Vertical (basic) form</h2>
+    <div class="jumbotron">
+        <h4>Edit Customer</h4>
+    </div>
     <form action="/action_page.php">
         <div class="form-group">
-            <label for="email">Email:</label>
-            <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
+            <label for="title">Title:</label>
+            <select id="title" name="title" class="form-control">
+                <option value="Mr">Mr</option>
+                <option value="Mrs">Mrs</option>
+                <option value="Ms">Ms</option>
+                <option value="Dr">Dr</option>
+                <option value="Prof">Prof</option>
+            </select>
         </div>
         <div class="form-group">
-            <label for="pwd">Password:</label>
-            <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pwd">
+            <label for="firstname">First name:</label>
+            <input type="text" class="form-control" id="firstname" name="firstname">
+        </div>
+        <div class="form-group">
+            <label for="lastname">Surname:</label>
+            <input type="text" class="form-control" id="lastname" name="lastname">
+        </div>
+        <div class="form-group">
+            <label for="dob">Date of Birth:</label>
+            <input type="date" class="form-control" id="dob" name="dob">
+        </div>
+        <div class="form-group">
+            <label for="email">Email Address:</label>
+            <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
+        </div>
+
+        <div class="form-group">
+        <label for="mobile_number">Mobile phone number:</label>
+        <input type="hidden" id="intl_number" name="intl_number"/>
+        <input  id="mobile_number" type="tel" class="form-control" name="mobile_number" required autocomplete="mobile_number" autofocus>
+        <span id="valid-msg" class="hide">✓ Valid</span>
+        <span id="error-msg" class="hide"></span>
+        </div>
+        
+        <div class="form-group">
+            <label for="current_pwd">Current Password:</label>
+            <input type="password" class="form-control" id="current_pwd" name="current_pwd">
+        </div>
+        <div class="form-group">
+            <label for="pwd">New Password:</label>
+            <input type="password" class="form-control" id="pwd" name="pwd">
+        </div>
+        <div class="form-group">
+            <label for="confirm_pwd">Confirm Password:</label>
+            <input type="password" class="form-control" id="confirm_pwd" name="confirm_pwd">
         </div>
         <div class="checkbox">
             <label><input type="checkbox" name="remember"> Remember me</label>
         </div>
-        <button type="submit" class="btn btn-default">Submit</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>
 
+<script>
+
+    let input = document.querySelector("#mobile_number"),
+        errorMsg = document.querySelector("#error-msg"),
+        validMsg = document.querySelector("#valid-msg");
+
+    // Error messages based on the code returned from getValidationError
+    let errorMap = [ "Invalid number", "Invalid country code", "Too short", "Too long", "Invalid number"];
+
+    // Initialise plugin
+    let intl = window.intlTelInput(input, {
+        utilsScript: "/js/utils.js"
+    });
+
+    let reset = function() {
+        input.classList.remove("error");
+        errorMsg.innerHTML = "";
+        errorMsg.classList.add("hide");
+        validMsg.classList.add("hide");
+    };
+
+    // Validate on blur event
+    input.addEventListener('blur', function() {
+        reset();
+        if(input.value.trim()){
+            if(intl.isValidNumber()){
+                validMsg.classList.remove("hide");
+            }else{
+                input.classList.add("error");
+                var errorCode = intl.getValidationError();
+                errorMsg.innerHTML = errorMap[errorCode];
+                errorMsg.classList.remove("hide");
+            }
+        }
+    });
+
+    // Reset on keyup/change event
+    input.addEventListener('change', reset);
+    input.addEventListener('keyup', reset);
+
+
+</script>
 </body>
 </html>
