@@ -35,14 +35,15 @@ class CustomerAddressCreation
         $item = new AddressSQL($db);
         $data = json_decode(file_get_contents("php://input"));
 
-        $item->title = $data->title;
-        $item->firstname = $data->firstname;
-        $item->lastname = $data->lastname;
-        $item->dob = $data->dob;
-        $item->email = $data->email;
-        $item->intl_number = $data->intl_number;
-        $item->mobile_number = $data->mobile_number;
-        $item->pwd = $data->pwd;
+        $item->contact_name = $data->contact_name;
+        $item->business_name = $data->business_name;
+        $item->address_one = $data->address_one;
+        $item->address_two = $data->address_two;
+        $item->city = $data->city;
+        $item->county = $data->county;
+        $item->country = $data->country;
+        $item->postcode = $data->postcode;
+        $item->address_type = $data->address_type;
         $item->created_at = date('Y-m-d H:i:s');
 
         if($item->createAddress()){

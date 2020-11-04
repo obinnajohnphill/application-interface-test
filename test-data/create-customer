@@ -1,6 +1,6 @@
 
 
-endpoint: /api/customer
+Test API endpoint: {domain}/api/customer
 
 
 Create Customer Payload:
@@ -8,4 +8,4 @@ Create Customer Payload:
 
 
 Create Address Payload:
-{"contact_name":"sgsgs","business_name":"gsgsg","address_one":"sgsg","address_two":"sgdsgs","city":"sgggs","county":"ssggg","country":null,"postcode":"afaf","address_type":"invoice"}
+{"contact_name":"James Doe","business_name":"Ziltex Ltd","address_one":"test line address 1","address_two":"test line address 2","city":"London","county":"Greater London","country":"DZ","postcode":"AZ12 5GT","address_type":"delivery"}

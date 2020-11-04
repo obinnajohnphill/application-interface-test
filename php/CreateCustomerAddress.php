@@ -46,11 +46,8 @@ class CreateCustomerAddress
         $ch = curl_init($this->url);
         $data_string = json_encode($data);
 
-        var_dump($data_string);
-        die();
-
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-        curl_setopt($ch, CURLOPT_POSTFIELDS, array("customer-address"=>$data_string));
+        curl_setopt($ch, CURLOPT_POSTFIELDS, array("addresses"=>$data_string));
 
         $result = curl_exec($ch);
         $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
