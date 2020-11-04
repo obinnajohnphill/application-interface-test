@@ -26,28 +26,31 @@ class CreateCustomerAddress
     public function __construct($request)
     {
         $this->request = $request;
-        dump( $this->request);
         $this->createCustomerAddressAPI();
     }
 
 
     public function createCustomerAddressAPI(){
         $data = array(
-            "title" => $this->request['title'],
-            "firstname" => $this->request['firstname'],
-            "lastname" => $this->request['lastname'],
-            "dob" => $this->request['dob'],
-            "email" => $this->request['email'],
-            "intl_number" => $this->request['intl_number'],
-            "mobile_number" => $this->request['mobile_number'],
-            "pwd" => $this->request['pwd'],
+            "contact_name" => $this->request['contact_name'],
+            "business_name" => $this->request['business_name'],
+            "address_one" => $this->request['address_one'],
+            "address_two" => $this->request['address_two'],
+            "city" => $this->request['city'],
+            "county" => $this->request['county'],
+            "country" => $this->request['country'],
+            "postcode" => $this->request['postcode'],
+            "address_type" => $this->request['address_type'],
         );
 
         $ch = curl_init($this->url);
         $data_string = json_encode($data);
 
+        var_dump($data_string);
+        die();
+
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-        curl_setopt($ch, CURLOPT_POSTFIELDS, array("customer"=>$data_string));
+        curl_setopt($ch, CURLOPT_POSTFIELDS, array("customer-address"=>$data_string));
 
         $result = curl_exec($ch);
         $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -62,7 +65,6 @@ class CreateCustomerAddress
             var_dump($error_msg);
             var_dump($httpcode);
         }
-
 
         curl_close($ch);
 

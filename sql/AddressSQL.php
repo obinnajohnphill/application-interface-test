@@ -5,7 +5,7 @@ class AddressSQL
 {
     private $conn;
 
-    private $db_table = "address";
+    private $db_table = "addresses";
 
     public $id;
     public $contact_name;
@@ -44,6 +44,7 @@ class AddressSQL
                         address_one = :address_one, 
                         address_two = :address_two, 
                         city = :city,
+                        county = :county,
                         country = :country,
                         postcode = :postcode,
                         address_type = :address_type,
@@ -53,7 +54,7 @@ class AddressSQL
         $stmt = $this->conn->prepare($sqlQuery);
 
         // sanitize
-        $this->contact_name = htmlspecialchars(strip_tags($this->contact_name);
+        $this->contact_name = htmlspecialchars(strip_tags($this->contact_name));
         $this->business_name = htmlspecialchars(strip_tags($this->business_name));
         $this->address_one= htmlspecialchars(strip_tags($this->address_one));
         $this->address_two = htmlspecialchars(strip_tags($this->address_two));
@@ -146,7 +147,7 @@ class AddressSQL
         $stmt = $this->conn->prepare($sqlQuery);
 
         // sanitize
-        $this->contact_name = htmlspecialchars(strip_tags($this->contact_name);
+        $this->contact_name = htmlspecialchars(strip_tags($this->contact_name));
         $this->business_name = htmlspecialchars(strip_tags($this->business_name));
         $this->address_one= htmlspecialchars(strip_tags($this->address_one));
         $this->address_two = htmlspecialchars(strip_tags($this->address_two));

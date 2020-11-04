@@ -3,6 +3,9 @@
 endpoint: /api/customer
 
 
-Payload:
-
+Create Customer Payload:
 {"title":"Mr","firstname":"James","lastname":"Doe","dob":"2020-10-10","email":"test@test.com","intl_number":"+232734527876","mobile_number":"012345678909","pwd":"testing123"}
+
+
+Create Address Payload:
+{"contact_name":"sgsgs","business_name":"gsgsg","address_one":"sgsg","address_two":"sgdsgs","city":"sgggs","county":"ssggg","country":null,"postcode":"afaf","address_type":"invoice"}
