@@ -36,16 +36,40 @@ Route::add('/registration',function(){
 
 
 ##.......API Routes.........
-Route::add('/customer/address/edit',function(){
-
-},'get');
-
 Route::add('/api/customer',function(){
     require '../api/CreateCustomer.php';
     new CreateCustomer();
 },'post');
 
+Route::add('/api/customer',function(){
+    require '../api/CustomerEdit.php';
+    new CustomerEdit();
+},'get');
 
+Route::add('/api/customer',function(){
+    require '../api/CustomerUpdate.php';
+    new CustomerUpdate();
+},'put');
+
+Route::add('/api/customer/address',function(){
+    require '../api/CustomerAddressCreation.php';
+    new CustomerAddressCreation();
+},'post');
+
+Route::add('/api/customer/address',function(){
+    require '../api/CustomerAddressEdit.php';
+    new CustomerAddressEdit();
+},'get');
+
+Route::add('/api/customer/address',function(){
+    require '../api/CustomerAddressUpdate.php';
+    new CustomerAddressUpdate();
+},'put');
+
+Route::add('/api/customer/address',function(){
+    require '../api/CustomerAddressDelete.php';
+    new CustomerAddressDelete();
+},'delete');
 
 Route::run('/');
 

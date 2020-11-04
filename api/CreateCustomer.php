@@ -1,13 +1,14 @@
 <?php
 
 /**
- * This is a CreateCustomer Class is uses to created a customer via API
+ * This is a CreateCustomer creates customer details via API
  *
  * @author  Obinna Johnphill <obinna.johnphill@googlemail.com>
  *
  * @since 1.0
  *
  */
+
 
 declare(strict_types=1);
 
