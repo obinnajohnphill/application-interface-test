@@ -9,13 +9,17 @@
   "autoload": {
     "classmap": [
       "php/",
-      "api/"
+      "api/",
+      "config",
+      "sql"
     ]
   },
   "require-dev": {
     "phpunit/phpunit": "^9"
   },
   "require": {
-    "ext-ftp": "*"
+    "ext-pdo": "*",
+    "ext-curl": "*",
+    "ext-json": "*"
   }
 }

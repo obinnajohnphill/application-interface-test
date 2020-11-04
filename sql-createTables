@@ -1,0 +1,12 @@
+CREATE TABLE customers (
+id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+title VARCHAR(30) NULL,
+firstname VARCHAR(30) NULL,
+lastname VARCHAR(30) NULL,
+dob DATE NULL,
+email VARCHAR(200) NULL,
+intl_number VARCHAR(50) NULL,
+mobile_number VARCHAR(50) NULL,
+pwd VARCHAR(200) NULL,
+created_at DATETIME NULL
+);

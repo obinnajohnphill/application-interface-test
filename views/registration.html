@@ -33,8 +33,7 @@
     <div class="jumbotron">
         <h4>Customer Registration</h4>
     </div>
-    <form action="/action_page.php">
-
+    <form action="/registration" method="post">
         <div class="form-group">
             <label for="title">Title:</label>
             <select id="title" name="title" class="form-control">
@@ -68,11 +67,6 @@
             <input  id="mobile_number" type="tel" class="form-control" name="mobile_number" required autocomplete="mobile_number" autofocus>
             <span id="valid-msg" class="hide">✓ Valid</span>
             <span id="error-msg" class="hide"></span>
-        </div>
-
-        <div class="form-group">
-            <label for="current_pwd">Current Password:</label>
-            <input type="password" class="form-control" id="current_pwd" name="current_pwd">
         </div>
         <div class="form-group">
             <label for="pwd">New Password:</label>

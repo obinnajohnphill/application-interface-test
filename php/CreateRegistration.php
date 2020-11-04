@@ -13,95 +13,63 @@
 declare(strict_types=1);
 
 
-class CreateRegistration extends CreateCustomerAddress implements CreateCustomerInterface
+class CreateRegistration
 {
-    protected $consignment;
-    private $dispatch_period;
-    private $courier;
+    protected $request;
+    protected $url = "http://127.0.0.1:8080/api/customer";
 
     /**
      * Counts the number of items in the provided array.
+     * @param array $request
      *
-     * @param array $consignment
-     * @param array $dispatch_period
-     * @param string $courier
+     * @return void
      */
-      public function __construct(array $consignment, array $dispatch_period, array $courier)
-        {
-           $this->consignment = $consignment;
-           $this->dispatch_period = $dispatch_period;
-           $this->courier = $courier;
+     public function __construct($request)
+     {
+         $this->request = $request;
+         $this->createCustomerAPI();
+     }
+
+
+    public function createCustomerAPI(){
+        $data = array(
+                        "title" => $this->request['title'],
+                        "firstname" => $this->request['firstname'],
+                        "lastname" => $this->request['lastname'],
+                        "dob" => $this->request['dob'],
+                        "email" => $this->request['email'],
+                        "intl_number" => $this->request['intl_number'],
+                        "mobile_number" => $this->request['mobile_number'],
+                        "pwd" => $this->request['pwd'],
+                     );
+
+        $ch = curl_init($this->url);
+        $data_string = json_encode($data);
+
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, array("customer"=>$data_string));
+
+        $result = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+
+        if (curl_errno($ch)) {
+            $error_msg = curl_error($ch);
+        }
+        curl_close($ch);
+
+        if (isset($error_msg)) {
+            var_dump($error_msg);
+            var_dump($httpcode);
         }
 
 
-    /**
-     * Gets the dispatch period and set the start and end time.
-     *
-     * @return array Returns the start and end time.
-     */
-    public function startNewDispatch(): array{
-        $dispatch_time = array();
-        foreach ($this->dispatch_period as $period){
-            if($this->isTodayWeekend() == true AND $period['day'] == "Weekend"){
-                $dispatch_time = array("start"=>$period['start'], "end"=>$period['end']);
-            }else{
-                $dispatch_time = array("start"=>$period['start'], "end"=>$period['end']);
-            }
-        }
-        return $dispatch_time;
+        curl_close($ch);
+
+        echo $result;
+
+        var_dump($result);
+        die();
     }
 
-
-    /**
-     * Generates unique code and assigns to the consignment.
-     *
-     * @return array Returns the consignment as array.
-     */
-    public function addConsignment(): array
-    {
-        $generated_consignment = array();
-        for($i=0; $i < count($this->consignment); $i++) {
-            $generated_consignment[] = array("product" => $this->consignment[$i],"uniqueID" => strtoupper(uniqid()));
-        }
-        return $generated_consignment;
-    }
-
-
-    /**
-     * Creates consignment batches and sends them to courries via a parent Class.
-     *
-     *
-     * @return string Returns a string message.
-     */
-    public function endCurrentBatch(): string
-    {
-        $batch = array();
-        $batch_no = count($this->addConsignment()) / count($this->courier);
-        for($i=0; $i < count($this->courier); $i++){
-            $batch[] = array_slice($this->addConsignment(),$batch_no);
-        }
-        date_default_timezone_set("Europe/London");
-        $time = $this->startNewDispatch();
-        if (strtotime(date('H:i')) >= strtotime( $time["start"]) OR strtotime(date('H:i')) <= strtotime( $time["end"])){
-            foreach ($this->courier as $key => $email){
-                if($key == "Royal Mail"){
-                    parent::sendEmail($email,$batch[0]);
-                }else{
-                    parent::sendFTP($batch[1]);
-                }
-            }
-        } else {
-            throw new \Exception('The time now is outside of the dispatch period!');
-        }
-        return "ended current batch";
-    }
-
-    /**
-     * Checks is the current day is a weekday or weekend.
-     *
-     * @return bool Returns true if today is a weekend or false if not.
-     */
-    public function isTodayWeekend(): bool {
-        return in_array(date("l"), ["Saturday", "Sunday"]);
-    }
 }
