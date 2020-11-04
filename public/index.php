@@ -33,6 +33,12 @@ Route::add('/registration',function(){
     new CreateRegistration($_POST);
 },'post');
 
+Route::add('/create-address',function(){
+    require '../php/CreateCustomerAddress.php';
+    new CreateCustomerAddress($_POST);
+},'post');
+
+
 
 
 ##.......API Routes.........

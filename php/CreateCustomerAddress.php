@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This is a CreateCustomerAddress Class that a parent class to CreateRegistration Class
+ * This is a CreateCustomerAddress creates customer address via API
  *
  * @author  Obinna Johnphill <obinna.johnphill@googlemail.com>
  *
@@ -11,121 +11,65 @@
 
 declare(strict_types=1);
 
+
 class CreateCustomerAddress
 {
-
-    private $email;
-    protected $consignment;
-
-    /**
-     *  Constructor which calls email validation and assigns email to variable
-     * @param string
-     * @param array $consignment
-     */
-    private function __construct(string $email)
-    {
-        $this->checkIfValidEmail($email);
-        $this->email = $email;
-    }
-
-    public static function fromString(string $email): self
-    {
-        return new self($email);
-    }
-
-    public function __toString(): string
-    {
-        return $this->email;
-    }
+    protected $request;
+    protected $url = "http://127.0.0.1:8080/api/customer";
 
     /**
-     *  Checks if email is valid
-     * @param string $email
+     * Counts the number of items in the provided array.
+     * @param array $request
+     *
      * @return void
      */
-    private function checkIfValidEmail(string $email): void
+    public function __construct($request)
     {
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            throw new InvalidArgumentException(
-                sprintf(
-                    '"%s" is not a valid email address',
-                    $email
-                )
-            );
-        }
-    }
-
-    /**
-     *  Send consignment via email
-     * @param string $email
-     * @param array $consignment
-     * @return void
-     */
-    protected function sendEmail($email,$consignment): void
-    {
-        try {
-            $to = $email;
-            $items = "";
-            $subject = "Blobs Clothing Order Dispatch";
-            foreach ($consignment as $value) {
-                $items .= ($value["product"]).': '.$value["uniqueID"].PHP_EOL;
-            }
-            $headers = "From: admin@blobs-clothing.com" . "\r\n" .
-                "CC: manager@blobs-clothing.com";
-            mail($to,$subject,$items,$headers);
-        } catch (Exception $e) {
-            echo 'Caught exception: ',  $e->getMessage(), "\n";
-        }
+        $this->request = $request;
+        dump( $this->request);
+        $this->createCustomerAddressAPI();
     }
 
 
-    /**
-     *  Send consignment via FTP
-     * @param array $consignment
-     * @return void
-     */
-    protected function sendFTP(array $consignment): void
-    {
-        $this->writeFile($consignment);
-        $file = 'dispatch.txt';
-        $ftp_server = "IP ADDRESS"; // Address of FTP server.
-        $ftp_user_name = " SERVER USERNAME"; // Username
-        $ftp_user_pass = " SERVER PASSWORD"; // Password
+    public function createCustomerAddressAPI(){
+        $data = array(
+            "title" => $this->request['title'],
+            "firstname" => $this->request['firstname'],
+            "lastname" => $this->request['lastname'],
+            "dob" => $this->request['dob'],
+            "email" => $this->request['email'],
+            "intl_number" => $this->request['intl_number'],
+            "mobile_number" => $this->request['mobile_number'],
+            "pwd" => $this->request['pwd'],
+        );
 
-        $conn_id = ftp_connect($ftp_server);
-        if($conn_id) {
-            $login = ftp_login($conn_id, $ftp_user_name, $ftp_user_pass);
-            if ($login == true) {
-                if (ftp_put($conn_id, $file, FTP_ASCII)) {
-                    echo "successfully uploaded $file\n";
-                } else {
-                    echo "There was a problem while uploading $file\n";
-                }
-            }
-            ftp_close($conn_id);
+        $ch = curl_init($this->url);
+        $data_string = json_encode($data);
+
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, array("customer"=>$data_string));
+
+        $result = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+
+        if (curl_errno($ch)) {
+            $error_msg = curl_error($ch);
         }
+        curl_close($ch);
+
+        if (isset($error_msg)) {
+            var_dump($error_msg);
+            var_dump($httpcode);
+        }
+
+
+        curl_close($ch);
+
+        echo $result;
+
+        var_dump($result);
+        die();
     }
 
-
-    /**
-     *  Creates a file dispatch.txt
-     *  Writes consignment dispatch to the file
-     * @param array $consignment
-     * @return bool
-     */
-    protected function writeFile(array $consignment): bool
-    {
-        try {
-            $items = "";
-            $file = fopen("dispatch.txt", "w");
-            foreach ($consignment as $value) {
-                $items .= ($value["product"]).': '.$value["uniqueID"].PHP_EOL;
-            }
-            fwrite($file, $items);
-            fclose($file);
-        } catch (Exception $e) {
-            echo 'Caught exception: ',  $e->getMessage(), "\n";
-        }
-        return true;
-    }
 }

@@ -1,8 +1,7 @@
 <?php
 
 /**
- * This is a CreateRegistration Class that extends a parent CreateCustomerAddress Class
- * It also implements CreateCustomerInterface which is an abstract class
+ * This is a CreateCustomer creates customer details via API
  *
  * @author  Obinna Johnphill <obinna.johnphill@googlemail.com>
  *
