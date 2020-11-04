@@ -24,16 +24,14 @@ class RegistrationSQL
     }
 
 
-    /*
+
     public function getAllCustomer()
     {
-        $sqlQuery = "SELECT id, name, email, age, designation, created FROM " . $this->db_table . "";
+        $sqlQuery = "SELECT id, title, firstname, lastname, dob,email,intl_number,mobile_number created_at FROM " . $this->db_table . "";
         $stmt = $this->conn->prepare($sqlQuery);
         $stmt->execute();
         return $stmt;
     }
-    */
-
 
     public function addCustomer()
     {

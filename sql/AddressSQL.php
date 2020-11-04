@@ -24,15 +24,14 @@ class AddressSQL
         $this->conn = $db;
     }
 
-   /*
+
     public function getAllAddress()
     {
-        $sqlQuery = "SELECT id, name, email, age, designation, created FROM " . $this->db_table . "";
+        $sqlQuery = "SELECT id, contact_name, business_name, address_one, address_two, city, county, country, postcode, address_type, created_at FROM " . $this->db_table . "";
         $stmt = $this->conn->prepare($sqlQuery);
         $stmt->execute();
         return $stmt;
     }
-   */
 
     public function createAddress()
     {
